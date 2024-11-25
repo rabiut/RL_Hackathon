@@ -15,7 +15,7 @@ class LunarLanderAgent:
         print(f"Q-table shape: {self.q_table.shape}")
 
         # Hyperparameters
-        self.alpha = 0.1  # Learning rate
+        self.alpha = 0.001  # Learning rate
         self.gamma = 0.99  # Discount factor
         self.epsilon = 1.0  # Initial exploration rate
         self.epsilon_min = 0.01

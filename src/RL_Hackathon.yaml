@@ -1,0 +1,33 @@
+name: RL_Hackathon
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - ca-certificates=2024.9.24=haa95532_0
+  - openssl=3.0.15=h827c3e9_0
+  - pip=24.2=py39haa95532_0
+  - python=3.9.20=h8205438_1
+  - setuptools=75.1.0=py39haa95532_0
+  - sqlite=3.45.3=h2bbff1b_0
+  - tzdata=2024b=h04d1e81_0
+  - vc=14.40=h2eaa2aa_1
+  - vs2015_runtime=14.40.33807=h98bb1dd_1
+  - wheel=0.44.0=py39haa95532_0
+  - pip:
+      - bidict==0.23.1
+      - box2d-py==2.3.5
+      - cloudpickle==3.1.0
+      - farama-notifications==0.0.4
+      - gymnasium==1.0.0
+      - h11==0.14.0
+      - importlib-metadata==8.5.0
+      - numpy==2.0.2
+      - pygame==2.6.1
+      - python-engineio==4.10.1
+      - python-socketio==5.11.4
+      - simple-websocket==1.1.0
+      - swig==4.2.1.post0
+      - typing-extensions==4.12.2
+      - websocket-client==1.8.0
+      - wsproto==1.2.0
+      - zipp==3.21.0
