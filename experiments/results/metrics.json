@@ -1,0 +1,19 @@
+{
+    "model": "Base Q-Learning Lunar Lander Agent",
+    "parameters": {
+      "alpha": 0.1,
+      "gamma": 0.99,
+      "epsilon_start": 1.0,
+      "epsilon_min": 0.01,
+      "epsilon_decay": 0.995,
+      "num_training_episodes": 1000,
+      "num_testing_episodes": 10
+    },
+    "testing_results": {
+      "average_test_reward": -220.61014770343112
+    },
+    "artifacts": {
+      "learning_curve_plot": "base_q_learning_learning_curve.png"
+    }
+  }
+  
