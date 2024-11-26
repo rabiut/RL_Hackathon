@@ -1,19 +1,50 @@
 {
-    "model": "Base Q-Learning Lunar Lander Agent",
-    "parameters": {
-      "alpha": 0.1,
-      "gamma": 0.99,
-      "epsilon_start": 1.0,
-      "epsilon_min": 0.01,
-      "epsilon_decay": 0.995,
-      "num_training_episodes": 1000,
-      "num_testing_episodes": 10
+  "models": [
+    {
+      "model": "Base Q-Learning Lunar Lander Agent",
+      "parameters": {
+        "alpha": 0.1,
+        "gamma": 0.99,
+        "epsilon_start": 1.0,
+        "epsilon_min": 0.01,
+        "epsilon_decay": 0.995,
+        "num_training_episodes": 1000,
+        "num_testing_episodes": 10,
+        "state_discretizer": {
+          "num_tilings": 32,
+          "tiles_per_dim": 8,
+          "iht_size": 4096
+        }
+      },
+      "testing_results": {
+        "average_test_reward": -220.61014770343112
+      },
+      "artifacts": {
+        "learning_curve_plot": "base_q_learning_learning_curve.png"
+      }
     },
-    "testing_results": {
-      "average_test_reward": -220.61014770343112
-    },
-    "artifacts": {
-      "learning_curve_plot": "base_q_learning_learning_curve.png"
+    {
+      "model": "Tuned Q-Learning Lunar Lander Agent",
+      "parameters": {
+        "alpha": 0.0078125,
+        "gamma": 0.99,
+        "epsilon_start": 1.0,
+        "epsilon_min": 0.01,
+        "epsilon_decay": 0.997,
+        "num_training_episodes": 15000,
+        "num_testing_episodes": 100,
+        "state_discretizer": {
+          "num_tilings": 64,
+          "tiles_per_dim": 32,
+          "iht_size": 65536
+        }
+      },
+      "testing_results": {
+        "average_test_reward": 231.40655403894627
+      },
+      "artifacts": {
+        "learning_curve_plot": "tuned_q_learning_learning_curve.png"
+      }
     }
-  }
-  
+  ]
+}

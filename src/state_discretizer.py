@@ -8,7 +8,7 @@ class IHT:
         self.size = sizeval
         self.dictionary = {}
         self.overfull_count = 0
-    
+
     def getindex(self, obj, readonly=False):
         if obj in self.dictionary:
             return self.dictionary[obj]
@@ -41,20 +41,20 @@ def tiles(iht, num_tilings, floats, ints=[]):
     return tiles
 
 class StateDiscretizer:
-    def __init__(self, env, num_tilings=32, tiles_per_dim=8, iht_size=4096):
+    def __init__(self, env, num_tilings=64, tiles_per_dim=32, iht_size=65536):
         self.env = env
         self.num_tilings = num_tilings
         self.tiles_per_dim = tiles_per_dim
         self.iht_size = iht_size
         self.iht = IHT(self.iht_size)
-        self.state_low = self.env.observation_space.low
-        self.state_high = self.env.observation_space.high
+        self.state_low = self.env.observation_space.low[:6]
+        self.state_high = self.env.observation_space.high[:6]
         self.state_range = self.state_high - self.state_low
-        
+
     def discretize(self, state):
         # Normalize continuous state variables (first 6 dimensions) to [0, 1]
         continuous_state = state[:6]
-        scaled_state = (continuous_state - self.state_low[:6]) / self.state_range[:6]
+        scaled_state = (continuous_state - self.state_low) / self.state_range
         scaled_state = np.clip(scaled_state, 0, 0.9999)  # Avoid edge cases
 
         # Include leg contact information (last 2 dimensions) as integer variables
