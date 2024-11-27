@@ -45,11 +45,11 @@ class Replay(object):
 class LunarLanderAgent:
     def __init__(self):
         self.env = gym.vector.SyncVectorEnv([lambda: gym.make("LunarLander-v3") for _ in range(4)])
-        
+        # Tau 0.2 results: Episode 844 AVG = 272.43
         self.batch_size = 64
         self.alpha = 0.001 # learning rate
         self.gamma = 0.99 # discount factor
-        self.tau = 0.1 # for soft update, prevents drastic changes and improves stability  
+        self.tau = 0.2 # for soft update, prevents drastic changes and improves stability   --> changed from 0.1 to 0.15 for testing
         self.epsilon = 1.0 # initial exploration rate
         self.epsilon_min = 0.01 # minimum exploration rate
         self.epsilon_decay = 0.1 #not used rn
@@ -62,9 +62,25 @@ class LunarLanderAgent:
         self.optim = optim.Adam(self.q_local.parameters(), lr=self.alpha)
         self.replay = Replay(50000)
         self.Transition = namedtuple('Transition', ('state', 'action', 'reward', 'next_state', 'done'))
+    # use when submitting
+    # def select_action(self, state, testing=True):
+    #     e = self.epsilon
+    #     if testing: e = 0
+    #     if random.random() > e:
+    #         with torch.no_grad():
+    #             state_tensor = torch.tensor(state, dtype=torch.float32)
 
-    def select_action(self, state):
-        if random.random() > self.epsilon:
+    #             if len(state_tensor.shape) == 1:
+    #                 state_tensor = state_tensor.unsqueeze(0)
+
+    #             return self.q_local(state_tensor).argmax(dim=1).item()
+    #     else:
+    #         return torch.randint(0, 4, (state.shape[0],))
+    #use when train/testing
+    def select_action(self, state, testing=True):
+        e = self.epsilon
+        if testing: e = 0
+        if random.random() > e:
             with torch.no_grad():
                 return self.q_local(state).argmax(dim=1)
         else:
@@ -144,7 +160,7 @@ class LunarLanderAgent:
         total_rewards = np.zeros(self.env.num_envs)
 
         while not np.all(done):
-            actions = self.select_action(states).numpy()
+            actions = self.select_action(states, testing = False).numpy()
 
             next_states, rewards, terminated, truncated, _ = self.env.step(actions)
 
@@ -175,7 +191,7 @@ class LunarLanderAgent:
 
             while not np.all(done):
                 with torch.no_grad():
-                    actions = self.q_local(states).argmax(dim=1).numpy()
+                    actions = self.select_action(states).numpy()
 
                 next_states, rewards, terminated, truncated, _ = self.env.step(actions)
                 dones = np.logical_or(terminated, truncated)

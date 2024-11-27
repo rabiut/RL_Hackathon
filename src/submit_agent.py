@@ -3,7 +3,7 @@
 import numpy as np
 import webbrowser
 import socketio
-from agent_base_tuned import LunarLanderAgent  # Ensure this is the correct class of your trained agent
+from agent_dqn_tuned import LunarLanderAgent  # Ensure this is the correct class of your trained agent
 
 # Configuration
 SERVER_URL = 'http://srv-cad.ece.mcmaster.ca:65000'  # Server URL
@@ -91,7 +91,7 @@ class AgentSubmission:
         self.timestep += 1
 
         # Print progress message
-        print(f"Episode: {episodes_completed}/{self.num_submission_episodes}, Timestep: {self.timestep}", end='\r')
+        print(f"Episode: {episodes_completed}/{self.num_submission_episodes}, Timestep: {self.timestep}, Avg Reward: {self.total_reward}", end='\r')
 
         if done:
             self.episodes_completed = episodes_completed
@@ -114,7 +114,6 @@ class AgentSubmission:
             action_to_send = action.item()
         else:
             action_to_send = action
-
         self.sio.emit('take_action', {'action': action_to_send})
 
     def open_leaderboard(self):
@@ -136,7 +135,7 @@ if __name__ == '__main__':
 
     agent = LunarLanderAgent()  # Ensure this is the correct class of your trained agent
 
-    agent_model_file = 'DQN_LunarLander_Final.pth'  # Set the trained agent's model file name
+    agent_model_file = 'model.pkl'  # Set the trained agent's model file name
 
     # Load the trained model
     print("loading Agent...")
@@ -146,4 +145,3 @@ if __name__ == '__main__':
     print("Submitting the solution...")
     submission = AgentSubmission(agent)
     submission.submit()
-
