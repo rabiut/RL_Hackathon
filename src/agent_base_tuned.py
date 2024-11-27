@@ -29,11 +29,11 @@ class LunarLanderAgent:
         self.gamma = 0.99  # Discount factor
         self.epsilon = 1.0  # Initial exploration rate
         self.epsilon_min = 0.01
-        self.epsilon_decay = 0.997  # Adjusted decay rate
+        self.epsilon_decay = 0.999 # Adjusted decay rate
 
         # Set random seeds for reproducibility
-        np.random.seed(42)
-        random.seed(42)
+        # np.random.seed(42)
+        # random.seed(42)
 
     def get_active_features(self, state):
         active_tiles = self.state_discretizer.discretize(state)
@@ -119,9 +119,9 @@ class LunarLanderAgent:
 
 if __name__ == '__main__':
     agent = LunarLanderAgent()
-    agent_model_file = 'model.npy'
+    agent_model_file = 'model_tuned_q_learning.npy'
 
-    num_training_episodes = 15000  # Increased training episodes
+    num_training_episodes = 15000*2  # Increased training episodes
     print("Training the agent...")
     rewards = agent.train(num_training_episodes)
     print("Training completed.")

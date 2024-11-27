@@ -3,14 +3,14 @@
 import numpy as np
 import webbrowser
 import socketio
-from agent_template import LunarLanderAgent  # Ensure this is the correct class of your trained agent
+from agent_base_tuned import LunarLanderAgent  # Ensure this is the correct class of your trained agent
 
 # Configuration
 SERVER_URL = 'http://srv-cad.ece.mcmaster.ca:65000'  # Server URL
 
 # Define team credentials directly in the script
-TEAM_NAME = 'Team Awesome'  # Replace with your actual team name
-TEAM_SECRET_CODE = 'your-secret-code'  # Replace with your actual secret code
+TEAM_NAME = 'NextUp'  # Replace with your actual team name
+TEAM_SECRET_CODE = '1b953b72-2ae6-4873-ba4f-d540909fe8eb'  # Replace with your actual secret code
 
 class AgentSubmission:
     def __init__(self, agent):
@@ -136,11 +136,11 @@ if __name__ == '__main__':
 
     agent = LunarLanderAgent()  # Ensure this is the correct class of your trained agent
 
-    agent_model_file = 'model.pkl'  # Set the trained agent's model file name
+    agent_model_file = 'DQN_LunarLander_Final.pth'  # Set the trained agent's model file name
 
     # Load the trained model
     print("loading Agent...")
-    agent.load_model(agent_model_file)
+    agent.load_agent(agent_model_file)
     
     # Submit the solution
     print("Submitting the solution...")
