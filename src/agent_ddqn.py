@@ -32,10 +32,10 @@ class DQNAgent:
         self.seed = random.seed(seed)
 
         # Hyperparameters
-        self.buffer_size = int(1e5)  # Replay buffer size
-        self.batch_size = 64         # Minibatch size
+        self.buffer_size = int(1e6)  # Replay buffer size
+        self.batch_size = 128         # Minibatch size
         self.gamma = 0.99            # Discount factor
-        self.tau = 1e-3              # For soft update of target parameters
+        self.tau = 5e-3              # For soft update of target parameters
         self.lr = 5e-4               # Learning rate
         self.update_every = 4        # How often to update the network
 
@@ -53,7 +53,7 @@ class DQNAgent:
         # Epsilon for epsilon-greedy action selection
         self.epsilon = 1.0  # Start with full exploration
         self.epsilon_min = 0.01
-        self.epsilon_decay = 0.995
+        self.epsilon_decay = 0.99995
 
     def step(self, state, action, reward, next_state, done):
         # Save experience in replay memory
@@ -129,7 +129,7 @@ class ReplayBuffer:
     def __len__(self):
         return len(self.memory)
 
-def train_dqn(agent, env, n_episodes=2000, max_t=1000):
+def train_dqn(agent, env, n_episodes=100000, max_t=1000):
     scores = []
     scores_window = deque(maxlen=100)  # Last 100 scores
     for i_episode in range(1, n_episodes + 1):
@@ -149,6 +149,11 @@ def train_dqn(agent, env, n_episodes=2000, max_t=1000):
         print(f'\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}\tEpsilon: {agent.epsilon:.2f}', end="")
         if i_episode % 100 == 0:
             print(f'\rEpisode {i_episode}\tAverage Score: {np.mean(scores_window):.2f}\tEpsilon: {agent.epsilon:.2f}')
+        
+        if i_episode % 10000 == 0:
+            torch.save(agent.qnetwork_local.state_dict(), 'DQN_LunarLander_Checkpoint.pth')
+            print(f"Checkpoint saved at Episode {i_episode}.")
+
     torch.save(agent.qnetwork_local.state_dict(), 'DQN_LunarLander_Final.pth')
     print("\nFinal model saved as 'DQN_LunarLander_Final.pth'.")
     return scores
@@ -178,7 +183,7 @@ if __name__ == '__main__':
     agent = DQNAgent(state_size, action_size, seed)
 
     print("Training the DQN agent...")
-    scores = train_dqn(agent, env, n_episodes=2000)
+    scores = train_dqn(agent, env, n_episodes=100000)
     print("Training completed.")
 
     plt.figure()
